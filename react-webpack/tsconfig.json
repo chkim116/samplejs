@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "lib": ["dom", "dom.Iterable"],
+        "strict": true,
+        "esModuleInterop": true,
+        "jsx": "react-jsx",
+        "baseUrl": "./src"
+    },
+    "include": ["src/**/*.ts", "src/**/*.tsx"],
+    "exclude": ["node_modules"]
+}
