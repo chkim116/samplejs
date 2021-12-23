@@ -31,7 +31,7 @@ function insertToCalcOperator() {
 }
 
 // operator is - + = ...
-function calculationNumber(operator = calc.operator) {
+function calculationNumber(operator) {
     switch (operator) {
         case "-": {
             calc.value = +calc.value - +calc.nextValue;
@@ -81,19 +81,13 @@ function inputCalcValue(value) {
         calc.value = value;
         insertToCalcValue();
         insertToCalcOperator();
-        return;
     }
 }
 
 function inputOperator(value) {
     if (calc.nextValue && calc.value) {
-        if (calc.operator) {
-            calculationNumber();
-            insertToCalcValue();
-        } else {
-            calculationNumber(value);
-            insertToCalcValue();
-        }
+        calculationNumber(calc.operator || value);
+        insertToCalcValue();
     }
     calc.operator = value;
     insertToCalcOperator();
@@ -132,7 +126,7 @@ function allReset() {
 function printFinish() {
     if (!calc.operator) return;
     if (calc.nextValue) {
-        calculationNumber();
+        calculationNumber(calc.operator);
         calc.nextValue = null;
     }
     calc.operator = null;
