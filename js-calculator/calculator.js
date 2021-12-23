@@ -22,8 +22,8 @@ function reset() {
 const isNumber = (value) => value.match(/[0-9]/);
 
 function renderCalcValue() {
-    calcValue.textContent = calc.value ?? INITIAL_TOTAL;
-    calcNext.textContent = calc.nextValue;
+    calcValue.textContent = +calc.value || INITIAL_TOTAL;
+    calcNext.textContent = +calc.nextValue || null;
 }
 
 function renderCalcOperator() {
