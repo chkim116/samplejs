@@ -21,12 +21,12 @@ function reset() {
 
 const isNumber = (value) => value.match(/[0-9]/);
 
-function insertToCalcValue() {
+function renderCalcValue() {
     calcValue.textContent = calc.value ?? INITIAL_TOTAL;
     calcNext.textContent = calc.nextValue;
 }
 
-function insertToCalcOperator() {
+function renderCalcOperator() {
     calcOperator.textContent = calc.operator;
 }
 
@@ -72,25 +72,25 @@ function calculationNumber(operator) {
 function inputCalcValue(value) {
     if (calc.value) {
         calc.nextValue = (calc.nextValue ?? "") + value;
-        insertToCalcValue();
+        renderCalcValue();
     }
 
     // calc.value === 0
     if (!calc.value) {
         reset();
         calc.value = value;
-        insertToCalcValue();
-        insertToCalcOperator();
+        renderCalcValue();
+        renderCalcOperator();
     }
 }
 
 function inputOperator(value) {
     if (calc.nextValue && calc.value) {
         calculationNumber(calc.operator ?? value);
-        insertToCalcValue();
+        renderCalcValue();
     }
     calc.operator = value;
-    insertToCalcOperator();
+    renderCalcOperator();
 }
 
 // operator 입력이 처음이 아닐 때
@@ -107,20 +107,20 @@ function isOperatorReady(value) {
 function isOperatorNotReady(value) {
     if (isNumber(value)) {
         calc.value = (calc.value ?? "") + value;
-        insertToCalcValue();
+        renderCalcValue();
     }
 
     if (!isNumber(value)) {
         calc.operator = value;
         calc.isOperator = true;
-        insertToCalcOperator();
+        renderCalcOperator();
     }
 }
 
 function allReset() {
     reset();
-    insertToCalcValue();
-    insertToCalcOperator();
+    renderCalcValue();
+    renderCalcOperator();
 }
 
 function printFinish() {
@@ -131,8 +131,8 @@ function printFinish() {
     }
     calc.operator = null;
     calc.isOperator = false;
-    insertToCalcValue();
-    insertToCalcOperator();
+    renderCalcValue();
+    renderCalcOperator();
 }
 
 function handleClickCalcNumber(e) {
@@ -169,7 +169,7 @@ function addEventCalcButton() {
 }
 
 function init() {
-    insertToCalcValue();
+    renderCalcValue();
     addEventCalcButton();
 }
 
