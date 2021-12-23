@@ -1,0 +1,13 @@
+{
+    "name": "ts-editor",
+    "version": "1.0.0",
+    "main": "./dist/editor.js",
+    "license": "MIT",
+    "scripts": {
+        "build": "tsc --watch",
+        "start": "http-server -c-1 -p 4000"
+    },
+    "dependencies": {
+        "http-server": "14.0.0"
+    }
+}
