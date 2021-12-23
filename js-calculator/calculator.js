@@ -125,9 +125,9 @@ function allReset() {
 
 function printFinish() {
     if (!calc.operator) return;
+
     if (calc.nextValue) {
         calculationNumber(calc.operator);
-        calc.nextValue = null;
     }
     calc.operator = null;
     calc.isOperator = false;
