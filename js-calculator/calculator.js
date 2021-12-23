@@ -22,7 +22,7 @@ function reset() {
 const isNumber = (value) => value.match(/[0-9]/);
 
 function insertToCalcValue() {
-    calcValue.textContent = calc.value || INITIAL_TOTAL;
+    calcValue.textContent = calc.value ?? INITIAL_TOTAL;
     calcNext.textContent = calc.nextValue;
 }
 
@@ -71,7 +71,7 @@ function calculationNumber(operator) {
 
 function inputCalcValue(value) {
     if (calc.value) {
-        calc.nextValue = (calc.nextValue || "") + value;
+        calc.nextValue = (calc.nextValue ?? "") + value;
         insertToCalcValue();
     }
 
@@ -86,7 +86,7 @@ function inputCalcValue(value) {
 
 function inputOperator(value) {
     if (calc.nextValue && calc.value) {
-        calculationNumber(calc.operator || value);
+        calculationNumber(calc.operator ?? value);
         insertToCalcValue();
     }
     calc.operator = value;
@@ -106,7 +106,7 @@ function isOperatorReady(value) {
 // operator 입력이 처음일 때 호출
 function isOperatorNotReady(value) {
     if (isNumber(value)) {
-        calc.value = (calc.value || "") + value;
+        calc.value = (calc.value ?? "") + value;
         insertToCalcValue();
     }
 
