@@ -1,13 +1,16 @@
 import Kanban from "./components/Kanban";
 import GlobalStyle from "./GlobalStyle";
 import styled from "@emotion/styled";
+import KanbanContext from "./context/KanbanContext";
 
 const App = () => {
     return (
-        <AppLayout>
-            <GlobalStyle />
-            <Kanban />
-        </AppLayout>
+        <KanbanContext>
+            <AppLayout>
+                <GlobalStyle />
+                <Kanban />
+            </AppLayout>
+        </KanbanContext>
     );
 };
 
