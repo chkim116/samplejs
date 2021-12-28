@@ -25,6 +25,25 @@ const Kanban = () => {
         const { droppableId: destDroppableId, index: destIndex } = destination;
         const { droppableId: sourceDroppableId, index: sourceIndex } = source;
 
+        // 같은 columns에서 위치 변경 시
+        if (destDroppableId === sourceDroppableId) {
+            const column = columns[sourceDroppableId];
+            const items = [...column.data];
+            const [removeItem] = items.splice(sourceIndex, 1);
+            items.splice(destIndex, 0, removeItem);
+
+            setColumns((prev) => {
+                return {
+                    ...prev,
+                    [sourceDroppableId]: {
+                        ...column,
+                        data: [...items],
+                    },
+                };
+            });
+            return;
+        }
+
         // 드랍된 아이템
         const sourceColumn = columns[sourceDroppableId];
         const destColumn = columns[destDroppableId];
@@ -41,11 +60,11 @@ const Kanban = () => {
             return {
                 ...prev,
                 [sourceDroppableId]: {
-                    ...prev[sourceDroppableId],
+                    ...sourceColumn,
                     data: [...sourceItems],
                 },
                 [destDroppableId]: {
-                    ...prev[destDroppableId],
+                    ...destColumn,
                     data: [...destItems],
                 },
             };
