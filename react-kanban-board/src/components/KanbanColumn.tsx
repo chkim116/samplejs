@@ -1,3 +1,5 @@
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
 import { DroppableProvided, Droppable } from "react-beautiful-dnd";
 import KanbanColumnItem from "./KanbanColumnItem";
 
@@ -9,21 +11,36 @@ interface Props {
 const KanbanColumn = ({ droppableId, columnItem }: Props) => {
     return (
         <Droppable droppableId={droppableId}>
-            {(provided: DroppableProvided) => (
-                <div ref={provided.innerRef} {...provided.droppableProps}>
+            {(provided: DroppableProvided, snapshot) => (
+                <KanbanColumnBlock
+                    isDraggingOver={snapshot.isDraggingOver}
+                    ref={provided.innerRef}
+                    {...provided.droppableProps}
+                >
                     {columnItem.map((item, index) => (
                         <KanbanColumnItem
                             key={item.id}
-                            itemId={item.id}
-                            text={item.text}
+                            item={item}
                             index={index}
                         />
                     ))}
                     {provided.placeholder}
-                </div>
+                </KanbanColumnBlock>
             )}
         </Droppable>
     );
 };
 
 export default KanbanColumn;
+
+const KanbanColumnBlock = styled.div<{ isDraggingOver: boolean }>`
+    ${({ isDraggingOver }) =>
+        isDraggingOver
+            ? css`
+                  background-color: #fafbfc;
+              `
+            : css`
+                  background-color: #f6f8f9;
+              `}
+    min-height: 500px;
+`;

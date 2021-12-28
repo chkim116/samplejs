@@ -1,22 +1,47 @@
-import { Fragment, useState } from "react";
+import styled from "@emotion/styled";
+import { useState } from "react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import KanbanColumn from "./KanbanColumn";
 
 const Kanban = () => {
     const [columns, setColumns] = useState({
         1: {
-            type: "todo",
+            type: "To Do",
             data: [
-                { id: 1, text: "todo?" },
-                { id: 2, text: "todos!" },
+                {
+                    id: 1,
+                    text: "todo?",
+                    date: new Date().toLocaleDateString(),
+                    tag: "new",
+                },
+                {
+                    id: 2,
+                    text: "todos!",
+                    date: new Date().toLocaleDateString(),
+                    tag: "new",
+                },
             ],
         },
         2: {
-            type: "progress",
+            type: "In Progress",
             data: [
-                { id: 12, text: "pro todo?" },
-                { id: 122, text: "pro todos!" },
+                {
+                    id: 12,
+                    text: "pro todo?",
+                    date: new Date().toLocaleDateString(),
+                    tag: "new",
+                },
+                {
+                    id: 122,
+                    text: "pro todos!",
+                    date: new Date().toLocaleDateString(),
+                    tag: "new",
+                },
             ],
+        },
+        3: {
+            type: "Done",
+            data: [],
         },
     });
 
@@ -78,26 +103,41 @@ const Kanban = () => {
     }
 
     return (
-        <div
-            style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-            }}
-        >
+        <Container>
             <DragDropContext onDragEnd={handleDragEnd}>
                 {Object.entries(columns).map(([columnId, column]) => (
-                    <Fragment key={columnId}>
-                        <h1>{column.type}</h1>
+                    <KanbanBlock key={columnId}>
+                        <KanbanTitle>{column.type}</KanbanTitle>
                         <KanbanColumn
                             droppableId={columnId}
                             columnItem={column.data}
                         />
-                    </Fragment>
+                    </KanbanBlock>
                 ))}
             </DragDropContext>
-        </div>
+        </Container>
     );
 };
 
 export default Kanban;
+
+const Container = styled.div`
+    max-width: 1000px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+`;
+
+const KanbanBlock = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+`;
+
+const KanbanTitle = styled.h1`
+    font-size: 1.2rem;
+    padding: 0.5em;
+    text-align: left;
+`;
