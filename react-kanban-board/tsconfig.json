@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "lib": ["dom", "dom.Iterable"],
+        "allowSyntheticDefaultImports": true,
+        "jsx": "react",
+        "jsxImportSource": "react",
+        "strict": true
+    },
+    "exclude": ["node_modules"]
+}
