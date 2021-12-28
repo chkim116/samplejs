@@ -1,5 +1,7 @@
+import Kanban from "./components/Kanban";
+
 const App = () => {
-    return <div>kanban</div>;
+    return <Kanban />;
 };
 
 export default App;
