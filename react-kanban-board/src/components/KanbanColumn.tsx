@@ -42,5 +42,5 @@ const KanbanColumnBlock = styled.div<{ isDraggingOver: boolean }>`
             : css`
                   background-color: #f6f8f9;
               `}
-    min-height: 500px;
+    margin-bottom: 2em;
 `;

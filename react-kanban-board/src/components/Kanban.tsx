@@ -4,6 +4,7 @@ import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import KanbanColumn from "./KanbanColumn";
 
 const Kanban = () => {
+    const [addTodoText, setAddTodoText] = useState("");
     const [columns, setColumns] = useState({
         1: {
             type: "To Do",
@@ -12,13 +13,11 @@ const Kanban = () => {
                     id: 1,
                     text: "todo?",
                     date: new Date().toLocaleDateString(),
-                    tag: "new",
                 },
                 {
                     id: 2,
                     text: "todos!",
                     date: new Date().toLocaleDateString(),
-                    tag: "new",
                 },
             ],
         },
@@ -29,13 +28,11 @@ const Kanban = () => {
                     id: 12,
                     text: "pro todo?",
                     date: new Date().toLocaleDateString(),
-                    tag: "new",
                 },
                 {
                     id: 122,
                     text: "pro todos!",
                     date: new Date().toLocaleDateString(),
-                    tag: "new",
                 },
             ],
         },
@@ -102,20 +99,58 @@ const Kanban = () => {
         }
     }
 
+    function handleChangeTodo(e) {
+        setAddTodoText(e.target.value);
+    }
+
+    function handleAddTodo(e) {
+        e.preventDefault();
+        const date = new Date();
+        const newTodo = {
+            id: date.getTime(),
+            text: addTodoText,
+            date: date.toLocaleDateString(),
+        };
+
+        const TODO_ID = 1;
+        setColumns((prev) => ({
+            ...prev,
+            [TODO_ID]: {
+                ...prev[TODO_ID],
+                data: [...prev[TODO_ID].data, newTodo],
+            },
+        }));
+
+        setAddTodoText("");
+    }
+
     return (
-        <Container>
-            <DragDropContext onDragEnd={handleDragEnd}>
-                {Object.entries(columns).map(([columnId, column]) => (
-                    <KanbanBlock key={columnId}>
-                        <KanbanTitle>{column.type}</KanbanTitle>
-                        <KanbanColumn
-                            droppableId={columnId}
-                            columnItem={column.data}
-                        />
-                    </KanbanBlock>
-                ))}
-            </DragDropContext>
-        </Container>
+        <>
+            <KanbanItemCreator>
+                <p>Write your Todo.</p>
+                <KanbanItemCreatorInput onSubmit={handleAddTodo}>
+                    <input
+                        type="text"
+                        value={addTodoText}
+                        onChange={handleChangeTodo}
+                        placeholder="New Todo"
+                    />
+                </KanbanItemCreatorInput>
+            </KanbanItemCreator>
+            <Container>
+                <DragDropContext onDragEnd={handleDragEnd}>
+                    {Object.entries(columns).map(([columnId, column]) => (
+                        <KanbanBlock key={columnId}>
+                            <KanbanTitle>{column.type}</KanbanTitle>
+                            <KanbanColumn
+                                droppableId={columnId}
+                                columnItem={column.data}
+                            />
+                        </KanbanBlock>
+                    ))}
+                </DragDropContext>
+            </Container>
+        </>
     );
 };
 
@@ -126,7 +161,6 @@ const Container = styled.div`
     width: 100%;
     margin: 0 auto;
     display: flex;
-    align-items: center;
     justify-content: space-between;
 `;
 
@@ -140,4 +174,31 @@ const KanbanTitle = styled.h1`
     font-size: 1.2rem;
     padding: 0.5em;
     text-align: left;
+`;
+
+const KanbanItemCreator = styled.div`
+    width: 100%;
+    max-width: 1000px;
+    display: flex;
+    flex-direction: column;
+    margin: 3em 0;
+
+    p {
+        padding-left: 0.4em;
+        font-size: 1.5rem;
+        color: #313131;
+    }
+`;
+
+const KanbanItemCreatorInput = styled.form`
+    width: 100%;
+    input {
+        width: 100%;
+        border: none;
+        outline: none;
+        padding: 1em 0.7em;
+        font-size: 1rem;
+        background-color: #f6f8f9;
+        border-bottom: 1px solid #dbdbdb;
+    }
 `;

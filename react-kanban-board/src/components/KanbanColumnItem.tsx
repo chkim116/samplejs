@@ -22,11 +22,6 @@ const KanbanColumnItem = ({ item, index }: Props) => {
                     <div>
                         <small>{item.date}</small>
                     </div>
-                    <div>
-                        <span>
-                            <small>{item.tag}</small>
-                        </span>
-                    </div>
                 </KanbanItem>
             )}
         </Draggable>
@@ -50,13 +45,5 @@ const KanbanItem = styled.div`
     div:nth-of-type(2) {
         color: #9c9c9c;
         margin-bottom: 0.6em;
-    }
-    /* tag */
-    div:nth-of-type(3) {
-        span {
-            border-radius: 6px;
-            padding: 0.1em 0.3em;
-            background-color: #dbdbdb;
-        }
     }
 `;
