@@ -2,13 +2,13 @@ import { DroppableProvided, Droppable } from "react-beautiful-dnd";
 import KanbanColumnItem from "./KanbanColumnItem";
 
 interface Props {
-    type: string;
+    droppableId: string;
     columnItem: any;
 }
 
-const KanbanColumn = ({ type, columnItem }: Props) => {
+const KanbanColumn = ({ droppableId, columnItem }: Props) => {
     return (
-        <Droppable droppableId={type}>
+        <Droppable droppableId={droppableId}>
             {(provided: DroppableProvided) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
                     {columnItem.map((item, index) => (

@@ -3,43 +3,53 @@ import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import KanbanColumn from "./KanbanColumn";
 
 const Kanban = () => {
-    const [columns, setColumns] = useState([
-        {
+    const [columns, setColumns] = useState({
+        1: {
             type: "todo",
             data: [
                 { id: 1, text: "todo?" },
                 { id: 2, text: "todos!" },
             ],
         },
-        {
+        2: {
             type: "progress",
             data: [
                 { id: 12, text: "pro todo?" },
                 { id: 122, text: "pro todos!" },
             ],
         },
-    ]);
+    });
 
     function handleDragEnd({ destination, source }: DropResult) {
-        if (!destination && !source) return;
-        const result = [...columns];
-        const { droppableId, index } = destination;
+        if (!destination || !source) return;
+        const { droppableId: destDroppableId, index: destIndex } = destination;
         const { droppableId: sourceDroppableId, index: sourceIndex } = source;
 
         // 드랍된 아이템
-        const target = result.find(
-            (column) => column.type === sourceDroppableId
-        ).data[sourceIndex];
+        const sourceColumn = columns[sourceDroppableId];
+        const destColumn = columns[destDroppableId];
+        const sourceItems = [...sourceColumn.data];
+        const destItems = [...destColumn.data];
 
-        // 드롭된 위치로 삽입
-        result
-            .find((column) => column.type === droppableId)
-            .data.splice(index, 0, target);
-
+        // 드롭 위치로 아이템 삽입
+        const target = sourceItems[sourceIndex];
+        destItems.splice(destIndex, 0, target);
         // 드랍된 아이템 삭제
-        result
-            .find((column) => column.type === sourceDroppableId)
-            .data.splice(sourceIndex, 1);
+        sourceItems.splice(sourceIndex, 1);
+
+        setColumns((prev) => {
+            return {
+                ...prev,
+                [sourceDroppableId]: {
+                    ...prev[sourceDroppableId],
+                    data: [...sourceItems],
+                },
+                [destDroppableId]: {
+                    ...prev[destDroppableId],
+                    data: [...destItems],
+                },
+            };
+        });
     }
 
     return (
@@ -51,11 +61,11 @@ const Kanban = () => {
             }}
         >
             <DragDropContext onDragEnd={handleDragEnd}>
-                {columns.map((column) => (
-                    <Fragment key={column.type}>
+                {Object.entries(columns).map(([columnId, column]) => (
+                    <Fragment key={columnId}>
                         <h1>{column.type}</h1>
                         <KanbanColumn
-                            type={column.type}
+                            droppableId={columnId}
                             columnItem={column.data}
                         />
                     </Fragment>
