@@ -27,6 +27,12 @@ const Kanban = () => {
 
         // 같은 columns에서 위치 변경 시
         if (destDroppableId === sourceDroppableId) {
+            sameColumnItemChange();
+        } else {
+            otherColumnItemChange();
+        }
+
+        function sameColumnItemChange() {
             const column = columns[sourceDroppableId];
             const items = [...column.data];
             const [removeItem] = items.splice(sourceIndex, 1);
@@ -41,34 +47,34 @@ const Kanban = () => {
                     },
                 };
             });
-            return;
         }
+        function otherColumnItemChange() {
+            // 드랍된 아이템
+            const sourceColumn = columns[sourceDroppableId];
+            const destColumn = columns[destDroppableId];
+            const sourceItems = [...sourceColumn.data];
+            const destItems = [...destColumn.data];
 
-        // 드랍된 아이템
-        const sourceColumn = columns[sourceDroppableId];
-        const destColumn = columns[destDroppableId];
-        const sourceItems = [...sourceColumn.data];
-        const destItems = [...destColumn.data];
+            // 드롭 위치로 아이템 삽입
+            const target = sourceItems[sourceIndex];
+            destItems.splice(destIndex, 0, target);
+            // 드랍된 아이템 삭제
+            sourceItems.splice(sourceIndex, 1);
 
-        // 드롭 위치로 아이템 삽입
-        const target = sourceItems[sourceIndex];
-        destItems.splice(destIndex, 0, target);
-        // 드랍된 아이템 삭제
-        sourceItems.splice(sourceIndex, 1);
-
-        setColumns((prev) => {
-            return {
-                ...prev,
-                [sourceDroppableId]: {
-                    ...sourceColumn,
-                    data: [...sourceItems],
-                },
-                [destDroppableId]: {
-                    ...destColumn,
-                    data: [...destItems],
-                },
-            };
-        });
+            setColumns((prev) => {
+                return {
+                    ...prev,
+                    [sourceDroppableId]: {
+                        ...sourceColumn,
+                        data: [...sourceItems],
+                    },
+                    [destDroppableId]: {
+                        ...destColumn,
+                        data: [...destItems],
+                    },
+                };
+            });
+        }
     }
 
     return (
