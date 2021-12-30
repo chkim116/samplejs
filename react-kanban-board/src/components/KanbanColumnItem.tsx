@@ -78,7 +78,7 @@ const KanbanItem = styled.div<{ isDone: boolean }>`
     ${({ isDone }) =>
         isDone &&
         css`
-            opacity: 0.3;
+            opacity: 0.5;
             /* text */
             div {
                 text-decoration: line-through;

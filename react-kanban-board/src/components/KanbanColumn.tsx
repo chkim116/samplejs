@@ -34,6 +34,6 @@ const KanbanColumn = ({ droppableId, columnItem }: Props) => {
 export default KanbanColumn;
 
 const KanbanColumnBlock = styled.div`
-    background-color: #333;
+    background-color: transparent;
     margin-bottom: 2em;
 `;

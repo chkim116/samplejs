@@ -164,7 +164,7 @@ const KanbanItemCreatorInput = styled.form`
         outline: none;
         padding: 0.7em;
         font-size: 1.2rem;
-        background-color: #333;
+        background-color: transparent;
         color: #ffffff;
         border-bottom: 1px solid #dbdbdb;
     }
