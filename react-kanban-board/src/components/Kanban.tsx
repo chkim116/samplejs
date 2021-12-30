@@ -87,7 +87,7 @@ const Kanban = () => {
 
     useEffect(() => {
         dispatch({ type: "LOAD_LOCAL_STORAGE" });
-    }, []);
+    }, [dispatch]);
 
     return (
         <>

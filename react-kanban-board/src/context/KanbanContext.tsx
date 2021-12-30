@@ -56,9 +56,9 @@ const reducer = (state: InitialState, action: Action) => {
         case "ADD": {
             return {
                 ...state,
-                [1]: {
-                    ...state[1],
-                    data: [...state[1].data, action.payload],
+                ["1"]: {
+                    ...state["1"],
+                    data: [...state["1"].data, action.payload],
                 },
             };
         }
