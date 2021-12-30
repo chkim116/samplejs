@@ -1,46 +1,14 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
+import { useDispatch, useSelector } from "../context/KanbanContext";
+import { KanbanKey } from "../types/kanban";
 import KanbanColumn from "./KanbanColumn";
 
 const Kanban = () => {
     const [addTodoText, setAddTodoText] = useState("");
-    const [columns, setColumns] = useState({
-        1: {
-            type: "To Do",
-            data: [
-                {
-                    id: 1,
-                    text: "todo?",
-                    date: new Date().toLocaleDateString(),
-                },
-                {
-                    id: 2,
-                    text: "todos!",
-                    date: new Date().toLocaleDateString(),
-                },
-            ],
-        },
-        2: {
-            type: "In Progress",
-            data: [
-                {
-                    id: 12,
-                    text: "pro todo?",
-                    date: new Date().toLocaleDateString(),
-                },
-                {
-                    id: 122,
-                    text: "pro todos!",
-                    date: new Date().toLocaleDateString(),
-                },
-            ],
-        },
-        3: {
-            type: "Done",
-            data: [],
-        },
-    });
+    const dispatch = useDispatch();
+    const columns = useSelector();
 
     function handleDragEnd({ destination, source }: DropResult) {
         if (!destination || !source) return;
@@ -55,25 +23,23 @@ const Kanban = () => {
         }
 
         function sameColumnItemChange() {
-            const column = columns[sourceDroppableId];
+            const column = columns[sourceDroppableId as KanbanKey];
             const items = [...column.data];
             const [removeItem] = items.splice(sourceIndex, 1);
             items.splice(destIndex, 0, removeItem);
 
-            setColumns((prev) => {
-                return {
-                    ...prev,
-                    [sourceDroppableId]: {
-                        ...column,
-                        data: [...items],
-                    },
-                };
+            dispatch({
+                type: "SAME_COLUMN_MOVE",
+                payload: {
+                    sourceDroppableId: sourceDroppableId as KanbanKey,
+                    newItems: items,
+                },
             });
         }
         function otherColumnItemChange() {
             // 드랍된 아이템
-            const sourceColumn = columns[sourceDroppableId];
-            const destColumn = columns[destDroppableId];
+            const sourceColumn = columns[sourceDroppableId as KanbanKey];
+            const destColumn = columns[destDroppableId as KanbanKey];
             const sourceItems = [...sourceColumn.data];
             const destItems = [...destColumn.data];
 
@@ -83,27 +49,23 @@ const Kanban = () => {
             // 드랍된 아이템 삭제
             sourceItems.splice(sourceIndex, 1);
 
-            setColumns((prev) => {
-                return {
-                    ...prev,
-                    [sourceDroppableId]: {
-                        ...sourceColumn,
-                        data: [...sourceItems],
-                    },
-                    [destDroppableId]: {
-                        ...destColumn,
-                        data: [...destItems],
-                    },
-                };
+            dispatch({
+                type: "OTHER_COLUMN_MOVE",
+                payload: {
+                    sourceDroppableId: sourceDroppableId as KanbanKey,
+                    sourceNewItems: sourceItems,
+                    destDroppableId: destDroppableId as KanbanKey,
+                    destNewItems: destItems,
+                },
             });
         }
     }
 
-    function handleChangeTodo(e) {
+    function handleChangeTodo(e: any) {
         setAddTodoText(e.target.value);
     }
 
-    function handleAddTodo(e) {
+    function handleAddTodo(e: any) {
         e.preventDefault();
         const date = new Date();
         const newTodo = {
@@ -112,14 +74,10 @@ const Kanban = () => {
             date: date.toLocaleDateString(),
         };
 
-        const TODO_ID = 1;
-        setColumns((prev) => ({
-            ...prev,
-            [TODO_ID]: {
-                ...prev[TODO_ID],
-                data: [...prev[TODO_ID].data, newTodo],
-            },
-        }));
+        dispatch({
+            type: "ADD",
+            payload: newTodo,
+        });
 
         setAddTodoText("");
     }

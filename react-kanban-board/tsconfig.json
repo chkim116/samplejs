@@ -3,7 +3,7 @@
         "target": "es5",
         "lib": ["dom", "dom.Iterable"],
         "allowSyntheticDefaultImports": true,
-        "jsx": "react",
+        "jsx": "react-jsx",
         "esModuleInterop": true,
         "jsxImportSource": "react",
         "strict": true

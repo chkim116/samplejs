@@ -1,8 +1,9 @@
 import { Draggable } from "react-beautiful-dnd";
 import styled from "@emotion/styled";
+import { TodoData } from "../types/kanban";
 
 interface Props {
-    item: any;
+    item: TodoData;
     index: number;
 }
 
