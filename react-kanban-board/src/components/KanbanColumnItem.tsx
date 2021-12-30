@@ -1,13 +1,27 @@
 import { Draggable } from "react-beautiful-dnd";
 import styled from "@emotion/styled";
-import { TodoData } from "../types/kanban";
+import { KanbanKey, TodoData } from "../types/kanban";
+import { useDispatch } from "../context/KanbanContext";
+import { RiDeleteBinLine } from "react-icons/ri";
 
 interface Props {
     item: TodoData;
     index: number;
+    columnId: KanbanKey;
 }
 
-const KanbanColumnItem = ({ item, index }: Props) => {
+const KanbanColumnItem = ({ item, index, columnId }: Props) => {
+    const dispatch = useDispatch();
+
+    const handleDelete = (e: any) => {
+        const { id } = e.currentTarget.dataset;
+
+        dispatch({
+            type: "DELETE",
+            payload: { kanbanKey: columnId, todoId: +id },
+        });
+    };
+
     return (
         <Draggable key={item.id} draggableId={`${item.id}`} index={index}>
             {(provided) => (
@@ -17,6 +31,9 @@ const KanbanColumnItem = ({ item, index }: Props) => {
                     {...provided.dragHandleProps}
                     {...provided.draggableProps}
                 >
+                    <KanbanDeleteBtn onClick={handleDelete} data-id={item.id}>
+                        <RiDeleteBinLine />
+                    </KanbanDeleteBtn>
                     <div>
                         <p>{item.text}</p>
                     </div>
@@ -32,6 +49,7 @@ const KanbanColumnItem = ({ item, index }: Props) => {
 export default KanbanColumnItem;
 
 const KanbanItem = styled.div`
+    position: relative;
     padding: 1em;
     background: #ffffff;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
@@ -46,5 +64,19 @@ const KanbanItem = styled.div`
     div:nth-of-type(2) {
         color: #9c9c9c;
         margin-bottom: 0.6em;
+    }
+`;
+
+const KanbanDeleteBtn = styled.button`
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+    background-color: #ffffff;
+
+    /* delete icon */
+    svg {
+        color: red;
+        font-size: 16px;
     }
 `;

@@ -29,6 +29,13 @@ const DispatchContext = createContext<Dispatch<Action>>(() => null);
 type Action =
     | { type: "ADD"; payload: TodoData }
     | {
+          type: "DELETE";
+          payload: {
+              kanbanKey: KanbanKey;
+              todoId: number;
+          };
+      }
+    | {
           type: "SAME_COLUMN_MOVE";
           payload: { sourceDroppableId: KanbanKey; newItems: TodoData[] };
       }
@@ -50,6 +57,17 @@ const reducer = (state: InitialState, action: Action) => {
                 [1]: {
                     ...state[1],
                     data: [...state[1].data, action.payload],
+                },
+            };
+        }
+        case "DELETE": {
+            return {
+                ...state,
+                [action.payload.kanbanKey]: {
+                    ...state[action.payload.kanbanKey],
+                    data: state[action.payload.kanbanKey].data.filter(
+                        (todo) => todo.id !== action.payload.todoId
+                    ),
                 },
             };
         }

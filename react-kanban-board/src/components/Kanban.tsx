@@ -101,7 +101,7 @@ const Kanban = () => {
                         <KanbanBlock key={columnId}>
                             <KanbanTitle>{column.type}</KanbanTitle>
                             <KanbanColumn
-                                droppableId={columnId}
+                                droppableId={columnId as KanbanKey}
                                 columnItem={column.data}
                             />
                         </KanbanBlock>

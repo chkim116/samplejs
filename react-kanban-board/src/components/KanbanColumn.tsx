@@ -1,11 +1,11 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { DroppableProvided, Droppable } from "react-beautiful-dnd";
-import { TodoData } from "../types/kanban";
+import { KanbanKey, TodoData } from "../types/kanban";
 import KanbanColumnItem from "./KanbanColumnItem";
 
 interface Props {
-    droppableId: string;
+    droppableId: KanbanKey;
     columnItem: TodoData[];
 }
 
@@ -20,6 +20,7 @@ const KanbanColumn = ({ droppableId, columnItem }: Props) => {
                 >
                     {columnItem.map((item, index) => (
                         <KanbanColumnItem
+                            columnId={droppableId}
                             key={item.id}
                             item={item}
                             index={index}
