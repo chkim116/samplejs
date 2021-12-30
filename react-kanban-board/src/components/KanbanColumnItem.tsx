@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import { KanbanKey, TodoData } from "../types/kanban";
 import { useDispatch } from "../context/KanbanContext";
 import { RiDeleteBinLine } from "react-icons/ri";
+import { css } from "@emotion/react";
 
 interface Props {
     item: TodoData;
@@ -28,12 +29,18 @@ const KanbanColumnItem = ({ item, index, columnId }: Props) => {
                 <KanbanItem
                     ref={provided.innerRef}
                     style={{ ...provided.draggableProps.style }}
+                    isDone={columnId === "3"}
                     {...provided.dragHandleProps}
                     {...provided.draggableProps}
                 >
-                    <KanbanDeleteBtn onClick={handleDelete} data-id={item.id}>
-                        <RiDeleteBinLine />
-                    </KanbanDeleteBtn>
+                    {columnId !== "3" && (
+                        <KanbanDeleteBtn
+                            onClick={handleDelete}
+                            data-id={item.id}
+                        >
+                            <RiDeleteBinLine />
+                        </KanbanDeleteBtn>
+                    )}
                     <div>
                         <p>{item.text}</p>
                     </div>
@@ -48,7 +55,7 @@ const KanbanColumnItem = ({ item, index, columnId }: Props) => {
 
 export default KanbanColumnItem;
 
-const KanbanItem = styled.div`
+const KanbanItem = styled.div<{ isDone: boolean }>`
     position: relative;
     padding: 1em;
     background: #ffffff;
@@ -65,13 +72,22 @@ const KanbanItem = styled.div`
         color: #9c9c9c;
         margin-bottom: 0.6em;
     }
+
+    ${({ isDone }) =>
+        isDone &&
+        css`
+            opacity: 0.3;
+            /* text */
+            div {
+                text-decoration: line-through;
+            }
+        `}
 `;
 
 const KanbanDeleteBtn = styled.button`
     position: absolute;
     top: 5px;
     right: 5px;
-    cursor: pointer;
     background-color: #ffffff;
 
     /* delete icon */
