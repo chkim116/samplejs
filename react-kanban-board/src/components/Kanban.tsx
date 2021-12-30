@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { useEffect } from "react";
 import { useState } from "react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "../context/KanbanContext";
@@ -18,8 +19,10 @@ const Kanban = () => {
         // 같은 columns에서 위치 변경 시
         if (destDroppableId === sourceDroppableId) {
             sameColumnItemChange();
+            dispatch({ type: "SAVE_LOCAL_STORAGE" });
         } else {
             otherColumnItemChange();
+            dispatch({ type: "SAVE_LOCAL_STORAGE" });
         }
 
         function sameColumnItemChange() {
@@ -78,9 +81,13 @@ const Kanban = () => {
             type: "ADD",
             payload: newTodo,
         });
-
+        dispatch({ type: "SAVE_LOCAL_STORAGE" });
         setAddTodoText("");
     }
+
+    useEffect(() => {
+        dispatch({ type: "LOAD_LOCAL_STORAGE" });
+    }, []);
 
     return (
         <>

@@ -21,6 +21,7 @@ const KanbanColumnItem = ({ item, index, columnId }: Props) => {
             type: "DELETE",
             payload: { kanbanKey: columnId, todoId: +id },
         });
+        dispatch({ type: "SAVE_LOCAL_STORAGE" });
     };
 
     return (

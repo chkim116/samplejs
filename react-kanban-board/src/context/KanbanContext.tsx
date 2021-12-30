@@ -47,7 +47,9 @@ type Action =
               destDroppableId: KanbanKey;
               destNewItems: TodoData[];
           };
-      };
+      }
+    | { type: "SAVE_LOCAL_STORAGE" }
+    | { type: "LOAD_LOCAL_STORAGE" };
 
 const reducer = (state: InitialState, action: Action) => {
     switch (action.type) {
@@ -92,6 +94,14 @@ const reducer = (state: InitialState, action: Action) => {
                     data: [...action.payload.destNewItems],
                 },
             };
+        }
+        case "SAVE_LOCAL_STORAGE": {
+            localStorage.setItem("kanban", JSON.stringify(state));
+            return state;
+        }
+        case "LOAD_LOCAL_STORAGE": {
+            const load = localStorage.getItem("kanban");
+            return load ? JSON.parse(load) : state;
         }
         default: {
             return state;
