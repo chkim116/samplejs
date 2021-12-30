@@ -4,6 +4,7 @@ import { useState } from "react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "../context/KanbanContext";
 import { KanbanKey } from "../types/kanban";
+import Advice from "./Advice";
 import KanbanColumn from "./KanbanColumn";
 
 const Kanban = () => {
@@ -101,6 +102,7 @@ const Kanban = () => {
                         placeholder="New Todo"
                     />
                 </KanbanItemCreatorInput>
+                <Advice />
             </KanbanItemCreator>
             <Container>
                 <DragDropContext onDragEnd={handleDragEnd}>
