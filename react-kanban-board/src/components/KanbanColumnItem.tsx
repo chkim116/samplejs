@@ -59,7 +59,7 @@ export default KanbanColumnItem;
 const KanbanItem = styled.div<{ isDone: boolean }>`
     position: relative;
     padding: 1em;
-    background: #ffffff;
+    background: #f6f8f9;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     margin: 0.8em 0.5em;
     border-radius: 12px;
@@ -67,6 +67,7 @@ const KanbanItem = styled.div<{ isDone: boolean }>`
     /* text */
     div:nth-of-type(1) {
         margin: 0.6em 0;
+        color: #333;
     }
     /* date */
     div:nth-of-type(2) {
@@ -89,7 +90,7 @@ const KanbanDeleteBtn = styled.button`
     position: absolute;
     top: 5px;
     right: 5px;
-    background-color: #ffffff;
+    background-color: #f6f8f9;
 
     /* delete icon */
     svg {

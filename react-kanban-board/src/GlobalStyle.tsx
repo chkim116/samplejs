@@ -9,7 +9,8 @@ const GlobalStyle = () => {
                     padding: 0;
                     margin: 0;
                     font-size: 16px;
-                    background-color: #f6f8f9;
+                    background-color: #333;
+                    color: #f6f8f9;
                 }
 
                 h1,

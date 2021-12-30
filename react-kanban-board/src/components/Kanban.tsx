@@ -153,7 +153,6 @@ const KanbanItemCreator = styled.div`
     p {
         padding-left: 0.4em;
         font-size: 1.5rem;
-        color: #313131;
     }
 `;
 
@@ -163,9 +162,10 @@ const KanbanItemCreatorInput = styled.form`
         width: 100%;
         border: none;
         outline: none;
-        padding: 1em 0.7em;
-        font-size: 1rem;
-        background-color: #f6f8f9;
+        padding: 0.7em;
+        font-size: 1.2rem;
+        background-color: #333;
+        color: #ffffff;
         border-bottom: 1px solid #dbdbdb;
     }
 `;
