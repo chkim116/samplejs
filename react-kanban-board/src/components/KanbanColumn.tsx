@@ -36,4 +36,5 @@ export default KanbanColumn;
 const KanbanColumnBlock = styled.div`
     background-color: transparent;
     margin-bottom: 2em;
+    overflow-y: auto;
 `;

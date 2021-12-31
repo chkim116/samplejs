@@ -129,6 +129,7 @@ const Container = styled.div`
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
+    overflow-y: auto;
 `;
 
 const KanbanBlock = styled.div`
